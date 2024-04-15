@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend
+  annotations: 
+    route.openshift.io/termination: edge
+spec:
+  rules:  
+  - host: frontendurl
+    http:
+      paths:
+      - backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+        path: ""
+        pathType: ImplementationSpecific        
+  tls:
+  - hosts:
+    - frontendurl
+    secretName: secret

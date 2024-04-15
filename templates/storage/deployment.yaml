@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: storage
+  name: storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: storage
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/excalidrawcollab-default: "true"
+        io.kompose.service: storage
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      containers:
+        - env:
+            - name: PORT
+              value: "8081"
+            - name: LOG_LEVEL
+              value: "verbose"
+            - name: "STORAGE_URI"
+              value: {{ .Values.Redis.Service | quote }} 
+          image: alswl/excalidraw-storage-backend:v2023.11.11
+          name: storage
+          ports:
+            - containerPort: 8081              
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
