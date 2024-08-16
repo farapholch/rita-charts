@@ -34,6 +34,9 @@ spec:
             - name: VITE_APP_STORAGE_BACKEND
               value: http
 
+            - name: VITE_APP_DISABLE_TRACKING=true
+              value: true
+
             - name: VITE_APP_WS_SERVER_URL
               value: {{ .Values.components.Collaboration | quote }}
 
